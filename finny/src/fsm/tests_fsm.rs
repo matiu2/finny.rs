@@ -6,19 +6,23 @@ use derive_more::From;
 #[derive(Default)]
 pub struct StateA;
 #[derive(Copy, Clone, Debug, PartialEq)]
-pub struct EventA { pub n: usize }
+pub struct EventA {
+    pub n: usize,
+}
 
 #[derive(Debug)]
 pub struct TestFsm;
 
 #[derive(Default)]
+#[allow(dead_code)]
 pub struct States {
-    state_a: StateA
+    state_a: StateA,
 }
 
 #[derive(Copy, Clone, Debug, PartialEq)]
+#[allow(dead_code)]
 pub enum StateKind {
-    StateA
+    StateA,
 }
 
 impl FsmStates<TestFsm> for States {
@@ -28,7 +32,7 @@ impl FsmStates<TestFsm> for States {
 
 #[derive(Debug, Copy, Clone, PartialEq, From)]
 pub enum Events {
-    EventA(EventA)
+    EventA(EventA),
 }
 
 impl AsRef<str> for Events {
@@ -37,9 +41,7 @@ impl AsRef<str> for Events {
     }
 }
 #[derive(Debug, Clone, PartialEq)]
-pub enum FsmBackendTimers {
-
-}
+pub enum FsmBackendTimers {}
 
 impl AllVariants for FsmBackendTimers {
     type Iter = core::iter::Once<FsmBackendTimers>;
@@ -55,10 +57,15 @@ impl FsmBackend for TestFsm {
     type Events = Events;
     type Timers = FsmBackendTimers;
 
-    fn dispatch_event<Q, I, T>(_ctx: crate::DispatchContext<Self, Q, I, T>, _event: crate::FsmEvent<Self::Events, Self::Timers>) -> crate::FsmDispatchResult
-        where Q: crate::FsmEventQueue<Self>,
-            I: crate::Inspect, T: crate::FsmTimers<Self>
-     {
+    fn dispatch_event<Q, I, T>(
+        _ctx: crate::DispatchContext<Self, Q, I, T>,
+        _event: crate::FsmEvent<Self::Events, Self::Timers>,
+    ) -> crate::FsmDispatchResult
+    where
+        Q: crate::FsmEventQueue<Self>,
+        I: crate::Inspect,
+        T: crate::FsmTimers<Self>,
+    {
         todo!()
     }
 }
